@@ -53,8 +53,9 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
     
     def do_command(self, e, cmd):
         if cmd[0] == "등록":
-            with open("emoji.txt", "a") as f:
-                f.write(cmd[1] + "\n")
+            with open("emoji.txt", "a+") as f:
+                if cmd[1] not in f.read():
+                    f.write(cmd[1] + "\n")
     
 def main(): 
     username = config.twitch['bot']
