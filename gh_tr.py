@@ -46,9 +46,16 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
                 tr_results = translator.translate(msg, dest='ko')
                 if tr_results.src != 'ko':                
                     c.privmsg(self.channel, e.tags[3]['value'] + '(' + tr_results.src + ')' + ' -> ' + tr_results.text)
-            
+        if e.arguments[0][:1] == '!':
+            cmd = e.arguments[0][1:]
+            self.do_command(e, cmd)
+        return
     
-            
+    def do_command(self, e, cmd):
+        if cmd[0] == "등록":
+            with open("emoji.txt", "a") as f:
+                f.write(cmd[1] + "\n")
+    
 def main(): 
     username = config.twitch['bot']
     client_id = config.twitch['clientID']
@@ -58,4 +65,4 @@ def main():
     bot.start()  
     
 if __name__ == "__main__":  
-    main()    
+    main()
