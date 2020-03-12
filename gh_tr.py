@@ -42,7 +42,7 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
         emoji_list = emoji_file.readlines()
         emoji_list[:] = [emoji.rstrip('\n') for emoji in emoji_list]
         if emoji_detector[0][:1] != '!':
-            if emoji_detector[0] not in str(emoji_list):
+            if emoji_detector[0][:4] not in str(emoji_list):
                 tr_results = translator.translate(msg, dest='ko')
                 if tr_results.src != 'ko':                
                     c.privmsg(self.channel, e.tags[3]['value'] + '(' + tr_results.src + ')' + ' -> ' + tr_results.text)
