@@ -47,7 +47,7 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
         if emoji_detector[0][:1] != '!':
             if emoji_detector[0][:6] not in str(emoji_list):
                 tr_detect = translator.detect(msg)
-                if str(tr_detect)[14:16] != 'ko':     
+                if str(tr_detect.lang) != 'ko':     
                     tr_results = translator.translate(msg, dest='ko')
                     c.privmsg(self.channel, e.tags[3]['value'] + '(' + tr_results.src + ')' + ' -> ' + tr_results.text)
         if e.arguments[0][:1] == '!':
