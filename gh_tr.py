@@ -41,6 +41,9 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
         emoji_file = open("emoji.txt", "r")
         emoji_list = emoji_file.readlines()
         emoji_list[:] = [emoji.rstrip('\n') for emoji in emoji_list]
+        
+        rm_emt = [word for word in emoji_detector if word not in emoji_list]
+        msg = ' '.join(rm_emt)
         if emoji_detector[0][:1] != '!':
             if emoji_detector[0][:6] not in str(emoji_list):
                 tr_detect = translator.detect(msg)
