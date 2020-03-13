@@ -44,27 +44,39 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
         if emoji_detector[0][:1] != '!':
             if emoji_detector[0][:6] not in str(emoji_list):
                 tr_detect = translator.detect(msg)
-                if str(tr_detect)[14:16] != 'ko':
+                if str(tr_detect)[14:16] != 'ko':     
                     tr_results = translator.translate(msg, dest='ko')
                     c.privmsg(self.channel, e.tags[3]['value'] + '(' + tr_results.src + ')' + ' -> ' + tr_results.text)
         if e.arguments[0][:1] == '!':
             cmd = e.arguments[0][1:]
             self.do_command(e, cmd)
         return
-    
+
     def do_command(self, e, cmd):
+        c = self.connection
+        
+        cmd = cmd.split(' ')
         if cmd[0] == "등록":
             with open("emoji.txt", "a+") as f:
                 if cmd[1] not in f.read():
                     f.write(cmd[1] + "\n")
+                    c.privmsg(self.channel, cmd[1]+ ' -> ' + ' 번역리스트에서 제외되었습니다.')
+                    raise ValueError
     
-def main(): 
+            
+def main():
     username = config.twitch['bot']
     client_id = config.twitch['clientID']
     token = config.twitch['oauth']
-    channel = config.twitch['channel']
-    bot = TwitchBot(username, client_id, token, channel)  
-    bot.start()  
-    
+    channel = config.twitch['ch_fp']
+    bot = TwitchBot(username, client_id, token, channel)
+    while True:
+        try:
+            bot.start()  
+        except ValueError:
+            pass
+        except TypeError:
+            pass
+
 if __name__ == "__main__":  
-    main()
+    main()    
