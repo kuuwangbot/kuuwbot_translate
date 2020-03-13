@@ -48,7 +48,7 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
             tr_detect = translator.detect(msg)
             if str(tr_detect.lang) != 'ko':     
                 tr_results = translator.translate(msg, dest='ko')
-                c.privmsg(self.channel, e.tags[3]['value'] + '(' + tr_results.src + ')' + ' -> ' + tr_results.text)
+                c.privmsg(self.channel, sender + '(' + tr_results.src + ')' + ' -> ' + tr_results.text)
         if e.arguments[0][:1] == '!':
             cmd = e.arguments[0][1:]
             self.do_command(e, cmd)
